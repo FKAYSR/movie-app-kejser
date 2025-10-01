@@ -140,7 +140,7 @@ footer {
    ===================== */
 /* TODO !!! */
 
-.movie-card {
+.movie-card { /*anulled further down because of repeat*/
   background: var(--bg-card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -162,15 +162,16 @@ footer {
 }
 
 .movie-poster {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-  background: linear-gradient(135deg, var(--secondary-light), var(--primary-light));
-  transition: var(--transition);
+  width: 100%; /*Billedet fylder hele card bredden*/
+  height: 400px; /*Fast højde sikrer alle posters er samme størrelse*/
+  object-fit: cover; /*Bibeholder billedets proportioner og fylder hele området*/
+  background: linear-gradient(135deg, var(--secondary-light), var(--primary-light)); /*Fallback hvis billede ikke loader*/
+  transition: var(--transition); /*Smooth animationer*/
+
 }
 
 .movie-card:hover .movie-poster {
-  transform: scale(1.05);
+  transform: scale(1.05); /*Zoom effekt på hover*/
 }
 
 .movie-info {
@@ -416,3 +417,64 @@ dialog#movie-dialog::backdrop {
     background: rgba(23, 23, 23, 0.9);
   }
 }
+
+/* Grid Container - parent element */
+#movie-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /*auto-fit - Tilpasser antal kolonner automatisk og minmax(250px, 1fr) - Minimum 250px bred, maksimum fylder tilgængelig plads*/
+  gap: 24px; /*24px mellemrum mellem cards*/
+  padding: 24px;
+  justify-items:  stretch; /* Strækker items til fuld kolonne bredde */
+  align-items: start; /* Aligner items til toppen */
+}
+
+/* I stedet for: 1fr 1fr 1fr 1fr */
+/*grid-template-columns: repeat(4, 1fr); /* 4 lige kolonner */
+
+/* Mixed størrelser */
+/*grid-template-columns: repeat(3, 200px); /* 3 kolonner, hver 200px */
+
+.movie-card {    
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Fylder fuld højde af grid cell */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.movie-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.movie-card.loading {
+  background: #f0f0f0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.movie-list-empty {
+  grid-column: 1 / -1; /* Fylder alle kolonner */
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+
+
+
+
