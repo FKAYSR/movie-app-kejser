@@ -172,3 +172,45 @@ console.log(`${barbieMovie.title} er ${barbieAge} år gammel`);
 
 const fightClubAge = currentYear - fightClubMovie.year;
 console.log(`${fightClubMovie.title} er ${fightClubAge} år gammel`);
+
+// Find movie list container (gør det én gang)
+const movieListContainer = document.querySelector("#movie-list");
+
+// Den SMARTE måde - funktion der både genererer HTML og tilføjer til DOM!
+function displayMovie(movieObject) {
+  // Konverter genre array til string
+  const genreString = movieObject.genre.join(", ");
+
+  const movieHTML = `
+    <article class="movie-card" tabindex="0">
+      <img src="${movieObject.image}" 
+           alt="Poster of ${movieObject.title}" 
+           class="movie-poster" />
+      <div class="movie-info">
+        <h3>${movieObject.title} <span class="movie-year">(${movieObject.year})</span></h3>
+        <p class="movie-genre">${genreString}</p>
+        <p class="movie-rating">⭐ ${movieObject.rating}</p>
+        <p class="movie-director"><strong>Director:</strong> ${movieObject.director}</p>
+      </div>
+    </article>
+  `;
+
+  // Tilføj direkte til DOM
+  movieListContainer.insertAdjacentHTML("beforeend", movieHTML);
+  console.log(`${movieObject.title} tilføjet til DOM!`);
+}
+
+// Test funktionen
+displayMovie(barbieMovie);
+
+// Ryd container først
+movieListContainer.innerHTML = "";
+
+// Tilføj movies med ÉN linje hver (så nemt!)
+displayMovie(barbieMovie);
+displayMovie(duneMovie);
+displayMovie(duneTwoMovie);
+
+console.log("3 movies tilføjet med kun 3 linjer kode!");
+
+
